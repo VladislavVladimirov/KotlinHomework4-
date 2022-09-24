@@ -1,115 +1,128 @@
-@file:Suppress("NAME_SHADOWING")
-
-package task_1
-
-import java.text.SimpleDateFormat
-
-data class Like(
-    val count: Int = 0,
-    val userLikes: Boolean = false,
-    val canLike: Boolean = true,
-    val canPublish: Boolean = true
-)
-
-data class Repost(val count: Int = 0, val userReposted: Boolean = false)
-
-data class Comment(
-    val count: Int = 0,
-    val canPost: Boolean = false,
-    val groupsCanPost: Boolean = false,
-    val canClose: Boolean = false,
-    val canOpen: Boolean = false
-)
-
-data class Post(
-    var id: Int = 0,
-    val ownerId: Int = 0,
-    val date: Long = 0,
-    val text: String = "",
-    val likes: Like = Like(),
-    val reposts: Repost = Repost(),
-    val views: Int = 0,
-    val comments: Comment = Comment(),
-    val isFriendsOnly: Boolean = false,
-    val isFavorite: Boolean = false
-)
+import data.*
 
 fun createPost(): Post = Post(
     0,
     1,
-    date = System.currentTimeMillis(), text = "Hello Kotlin!",
+    fromId = 0,
+    createdBy = 0,
+    date = System.currentTimeMillis(),
+    text = "",
+    replyOwnerId = 0,
+    replyPostId = 0,
+    isFriendsOnly = null,
+    comments = emptyList(),
+    copyright = Copyright(),
     likes = Like(),
     reposts = Repost(),
     views = 1,
-    comments = Comment(),
-    isFriendsOnly = false,
-    isFavorite = false
+    postType = "",
+    attachments = emptyList(),
+    postSource = PostSource(),
+    geo = Geo(),
+    signer_id = 0,
+    canPin = null,
+    canEdit = null,
+    isPinned = null,
+    isMarkedAsAds = null,
+    isFavorite = null,
+    donut = Donut(),
+    postponedId = 0,
+    repost = null
 )
-
-object WallService {
-    private var posts = emptyArray<Post>()
-    private var id: Int = 0
-
-    fun clear() {
-        posts = emptyArray()
-    }
-
-    fun add(post: Post): Post {
-        posts += post.copy(id = id++)
-        return posts.last()
-    }
-
-    fun update(post: Post): Boolean {
-        for ((index, post) in posts.withIndex()) {
-            if (post.id == id) {
-                val originalPost = posts[index]
-                posts[index] = post.copy(ownerId = originalPost.ownerId, date = originalPost.date)
-                return true
-            }
-        }
-        return false
-    }
-
-    fun getAll(): Array<Post> {
-        return posts
-    }
-    fun printPosts() {
-        val posts = getAll()
-        for (post in posts) {
-            val dataFormat = SimpleDateFormat("Дата поста: dd:MM:yy, время поста:  HH:mm:ss")
-            val data = dataFormat.format(post.date)
-            println("${post.text}\n Id автора: ${post.ownerId}\n Id поста: ${post.id}\n $data\n Количество лайков: ${post.likes.count}\n Количество репостов: " "
-
-            )
-            post.text + ", Идентификатор поста: " + post.id +
-                    ", Идентификатор автора поста: " + post.ownerId +
-                    ", $data " + "Лайки: " + post.likes.count + "\n"
-        }
-    }
-}
 
 fun main() {
     val likes = Like()
     val reposts = Repost()
-    val comments = Comment()
     val post = createPost()
     val post1 = post.copy(
+        text = "Это мой первый пост",
         likes = likes.copy(count = likes.count + 200, canPublish = true),
         reposts = reposts.copy(count = reposts.count + 53),
         date = System.currentTimeMillis(),
         ownerId = 1,
         views = 500,
-        comments = comments.copy(count = 50, canPost = true, groupsCanPost = true, canClose = true, canOpen = true)
+        comments = emptyList(),
+        fromId = 1,
+        createdBy = 0,
+        replyOwnerId = 0,
+        replyPostId = 0,
+        isFriendsOnly = false,
+        copyright = Copyright(),
+        postType = "post",
+        attachments = emptyList(),
+        postSource = PostSource(),
+        geo = Geo(),
+        signer_id = 0,
+        canPin = false,
+        canEdit = false,
+        isPinned = false,
+        isMarkedAsAds = false,
+        isFavorite = false,
+        donut = Donut(),
+        postponedId = 0,
+        repost = null
     )
-    val update = post.copy(
-        likes = likes.copy(count = likes.count + 200, canPublish = true),
-        reposts = reposts.copy(count = reposts.count + 53),
+    val post2 = post.copy(
+        text = "Это мой второй пост",
+        likes = likes.copy(count = likes.count + 100, canPublish = true),
+        reposts = reposts.copy(count = reposts.count + 93),
         date = System.currentTimeMillis(),
         ownerId = 1,
-        views = 500,
-        comments = comments.copy(count = 50, canPost = true, groupsCanPost = true, canClose = true, canOpen = true)
+        views = 300,
+        comments = emptyList(),
+        fromId = 1,
+        createdBy = 0,
+        replyOwnerId = 0,
+        replyPostId = 0,
+        isFriendsOnly = false,
+        copyright = Copyright(),
+        postType = "post",
+        attachments = listOf(Photo(123,222,32,21,"Saint-Petersburg", date = System.currentTimeMillis()),
+        Video(223,220,"Nevsky Prospect","Our trip on the central street of Saint-Petersburg", 324,date = System.currentTimeMillis(),320), Audio(984,872,"Смысловые галлюцинации","Вечно молодой", 200,"www.itunes.com/smislovie_gallutsinatsii/songs",2, date = System.currentTimeMillis() ),),
+        postSource = PostSource(),
+        geo = Geo(),
+        signer_id = 0,
+        canPin = false,
+        canEdit = false,
+        isPinned = false,
+        isMarkedAsAds = false,
+        isFavorite = false,
+        donut = Donut(),
+        postponedId = 0,
+        repost = null
+    )
+    val updatedPost = post.copy(
+        id = 1,
+        text = "Обновление первого поста",
+        likes = likes.copy(count = likes.count + 320, canPublish = true),
+        reposts = reposts.copy(count = reposts.count + 33),
+        date = System.currentTimeMillis(),
+        ownerId = 1,
+        views = 760,
+        comments = emptyList(),
+        fromId = 1,
+        createdBy = 0,
+        replyOwnerId = 0,
+        replyPostId = 0,
+        isFriendsOnly = false,
+        copyright = Copyright(),
+        postType = "post",
+        attachments = emptyList(),
+        postSource = PostSource(),
+        geo = Geo(),
+        signer_id = 0,
+        canPin = false,
+        canEdit = false,
+        isPinned = false,
+        isMarkedAsAds = false,
+        isFavorite = false,
+        donut = Donut(),
+        postponedId = 0,
+        repost = null
     )
     WallService.add(post1)
+    WallService.add(post2)
+    WallService.update(updatedPost)
     WallService.printPosts()
 }
 
