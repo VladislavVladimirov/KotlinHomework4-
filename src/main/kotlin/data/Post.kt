@@ -9,7 +9,7 @@ data class Post(
     val replyOwnerId: Int = 0,
     val replyPostId: Int = 0,
     val isFriendsOnly: Boolean? = null,
-    val comments: List<Comment>,
+    var comments: MutableList<Comment>,
     val copyright: Copyright = Copyright(),
     val likes: Like = Like(),
     val reposts: Repost = Repost(),

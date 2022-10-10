@@ -1,39 +1,14 @@
+import WallService.add
+import WallService.createComment
+import WallService.printPosts
+import WallService.update
 import data.*
-
-fun createPost(): Post = Post(
-    0,
-    1,
-    fromId = 0,
-    createdBy = 0,
-    date = System.currentTimeMillis(),
-    text = "",
-    replyOwnerId = 0,
-    replyPostId = 0,
-    isFriendsOnly = null,
-    comments = emptyList(),
-    copyright = Copyright(),
-    likes = Like(),
-    reposts = Repost(),
-    views = 1,
-    postType = "",
-    attachments = emptyList(),
-    postSource = PostSource(),
-    geo = Geo(),
-    signer_id = 0,
-    canPin = null,
-    canEdit = null,
-    isPinned = null,
-    isMarkedAsAds = null,
-    isFavorite = null,
-    donut = Donut(),
-    postponedId = 0,
-    repost = null
-)
 
 fun main() {
     val likes = Like()
     val reposts = Repost()
     val post = createPost()
+    val comment = Comment()
     val post1 = post.copy(
         text = "Это мой первый пост",
         likes = likes.copy(count = likes.count + 200, canPublish = true),
@@ -41,7 +16,7 @@ fun main() {
         date = System.currentTimeMillis(),
         ownerId = 1,
         views = 500,
-        comments = emptyList(),
+        comments = mutableListOf(),
         fromId = 1,
         createdBy = 0,
         replyOwnerId = 0,
@@ -69,7 +44,7 @@ fun main() {
         date = System.currentTimeMillis(),
         ownerId = 1,
         views = 300,
-        comments = emptyList(),
+        comments = mutableListOf(),
         fromId = 1,
         createdBy = 0,
         replyOwnerId = 0,
@@ -77,8 +52,28 @@ fun main() {
         isFriendsOnly = false,
         copyright = Copyright(),
         postType = "post",
-        attachments = listOf(Photo(123,222,32,21,"Saint-Petersburg", date = System.currentTimeMillis()),
-        Video(223,220,"Nevsky Prospect","Our trip on the central street of Saint-Petersburg", 324,date = System.currentTimeMillis(),320), Audio(984,872,"Смысловые галлюцинации","Вечно молодой", 200,"www.itunes.com/smislovie_gallutsinatsii/songs",2, date = System.currentTimeMillis() ),),
+        attachments = listOf(
+            Photo(123, 222, 32, 21, "Saint-Petersburg", date = System.currentTimeMillis()),
+            Video(
+                223,
+                220,
+                "Nevsky Prospect",
+                "Our trip on the central street of Saint-Petersburg",
+                324,
+                date = System.currentTimeMillis(),
+                320
+            ),
+            Audio(
+                984,
+                872,
+                "Смысловые галлюцинации",
+                "Вечно молодой",
+                200,
+                "www.itunes.com/smislovie_gallutsinatsii/songs",
+                2,
+                date = System.currentTimeMillis()
+            ),
+        ),
         postSource = PostSource(),
         geo = Geo(),
         signer_id = 0,
@@ -99,7 +94,7 @@ fun main() {
         date = System.currentTimeMillis(),
         ownerId = 1,
         views = 760,
-        comments = emptyList(),
+        comments = mutableListOf(),
         fromId = 1,
         createdBy = 0,
         replyOwnerId = 0,
@@ -120,9 +115,20 @@ fun main() {
         postponedId = 0,
         repost = null
     )
-    WallService.add(post1)
-    WallService.add(post2)
-    WallService.update(updatedPost)
-    WallService.printPosts()
+    val comment1 =
+        comment.copy(postId = 1, date = System.currentTimeMillis(), text = "Всем привет!", attachment = emptyList())
+    val comment2 =
+        comment.copy(postId = 2, date = System.currentTimeMillis(), text = "Классные фото!", attachment = emptyList())
+    val comment3 =
+        Comment(postId = 1, date = System.currentTimeMillis(), text = "Отличный пост!", attachment = emptyList())
+    add(post1)
+    add(post2)
+    update(updatedPost)
+    createComment(comment1)
+    createComment(comment2)
+    createComment(comment3)
+    printPosts()
+
+
 }
 

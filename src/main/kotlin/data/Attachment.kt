@@ -22,45 +22,34 @@ data class Video(
 ) : Attachment("video")
 
 data class Audio(
-    val id: Int,
-    val ownerId: Int,
-    val artist: String,
-    val title: String,
-    val duration: Int,
-    val url: String,
-    val genreId: Int,
-    val date: Long,
+    val id: Int = 0,
+    val ownerId: Int = 0,
+    val artist: String = "",
+    val title: String = "",
+    val duration: Int = 0,
+    val url: String ="",
+    val genreId: Int = 0,
+    val date: Long = 0,
 ) : Attachment("audio")
 
 data class File(
-    val id: Int,
-    val ownerId: Int,
-    val title: String,
-    val size: Int,
-    val ext: String,
-    val url: String,
-    val date: Int,
-    val fileType: Int
+    val id: Int = 0,
+    val ownerId: Int = 0,
+    val title: String = "",
+    val size: Int = 0,
+    val ext: String = "",
+    val url: String = "",
+    val date: Int = 0,
+    val fileType: Int = 0
 ) : Attachment("file")
 
 data class Graffiti(
-    val id: Int,
-    val ownerId: Int,
-    val url: String,
-    val width: Int,
-    val height: Int
+    val id: Int = 0,
+    val ownerId: Int = 0,
+    val url: String = "",
+    val width: Int = 0,
+    val height: Int = 0
 ) : Attachment("Graffiti")
 
-data class Comment(
-val count: Int = 0,
-val canPost: Boolean? = null,
-val groupsCanPost: Boolean? = null,
-val canClose: Boolean? = null,
-val canOpen: Boolean? = null,
-val id: Int,
-val postId: Int,
-val date: Int,
-val text: String,
-val attachment: List<Attachment>
-) : Attachment("comment")
+
 
